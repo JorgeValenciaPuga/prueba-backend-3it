@@ -10,7 +10,7 @@ public class UsuarioResponseDTO {
     private String correo;
     private LocalDateTime createdAt;
     private List<TelefonoResponseDTO> telefonos;
-    private String token; // Se incluirá solo en la respuesta del registro
+    private String token;
 
     public UsuarioResponseDTO(UUID id, String nombre, String correo, LocalDateTime createdAt, List<TelefonoResponseDTO> telefonos, String token) {
         this.id = id;
