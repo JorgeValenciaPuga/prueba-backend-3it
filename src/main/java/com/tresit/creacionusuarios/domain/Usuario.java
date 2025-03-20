@@ -12,10 +12,10 @@ import java.util.UUID;
 public class Usuario {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false,length = 100)
+    @Column(nullable = false)
     private String nombre;
 
     @Column(nullable = false)
@@ -29,12 +29,6 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefono> telefonos;
-
-    @PrePersist
-    protected void onCreate() {
-        this.id = UUID.randomUUID();
-        this.fechaCreacion = LocalDateTime.now();
-    }
 
     public UUID getId() {
         return id;

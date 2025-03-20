@@ -1,22 +1,16 @@
 package com.tresit.creacionusuarios.domain;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-
-public class TelefonoRequestDTO {
-
-    @NotBlank(message = "El número de teléfono es obligatorio")
+public class TelefonoResponseDTO {
     private String numero;
-
-    @NotBlank(message = "El código de área es obligatorio")
-    @Pattern(regexp = "^\\d+$", message = "El código de área solo debe contener números")
     private String codigoArea;
-
-    @NotBlank(message = "El código de país es obligatorio")
-    @Pattern(regexp = "^\\d+$", message = "El código de país solo debe contener números")
     private String codigoPais;
 
-    // Getters y setters
+    public TelefonoResponseDTO(String numero, String codigoArea, String codigoPais) {
+        this.numero = numero;
+        this.codigoArea = codigoArea;
+        this.codigoPais = codigoPais;
+    }
+
     public String getNumero() { return numero; }
     public void setNumero(String numero) { this.numero = numero; }
 
@@ -26,3 +20,4 @@ public class TelefonoRequestDTO {
     public String getCodigoPais() { return codigoPais; }
     public void setCodigoPais(String codigoPais) { this.codigoPais = codigoPais; }
 }
+

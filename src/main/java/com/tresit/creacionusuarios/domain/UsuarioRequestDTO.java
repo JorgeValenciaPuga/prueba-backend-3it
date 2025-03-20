@@ -8,6 +8,13 @@ import java.util.List;
 
 public class UsuarioRequestDTO {
 
+    public UsuarioRequestDTO(String nombre, String correo, String clave, List<TelefonoRequestDTO> telefonos) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.clave = clave;
+        this.telefonos = telefonos;
+    }
+
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 

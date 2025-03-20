@@ -1,0 +1,74 @@
+Instrucciones para probar la API
+1. Iniciar la aplicación
+Ejecuta tu aplicación Spring Boot.
+ejecuta en la terminal:
+
+mvn spring-boot:run
+
+
+Verifica que la aplicación está corriendo accediendo a:
+
+http://localhost:8080
+
+2. Probar el registro de usuario (POST /api/usuarios/registrar)
+Con Postman
+Crea una nueva petición POST con la URL:
+
+http://localhost:8080/api/usuarios/registrar
+
+En la pestaña Headers, agrega el siguiente encabezado:
+
+Content-Type: application/json
+En la pestaña Body, selecciona raw y pega el siguiente JSON para registrar un usuario:
+
+{
+  "nombre": "Juan Pérez",
+  "correo": "juan.perez@example.com",
+  "clave": "Abc12345",
+  "telefonos": [
+    {
+      "numero": "987654321",
+      "codigoArea": "2",
+      "codigoPais": "+56"
+    }
+  ]
+}
+
+Si el registro es exitoso, recibirás un código 201 Created y un JSON con los campos id, created_at y token.
+
+3. Probar el listado de usuarios (GET /api/usuarios/listar)
+Con Postman
+Crea una nueva petición GET con la URL:
+
+http://localhost:8080/api/usuarios/listar
+
+En Headers, agrega el siguiente encabezado para enviar el token JWT:
+
+Authorization: Bearer <TOKEN_AQUÍ>
+
+Si el token es válido, recibirás un código 200 OK y un JSON con la lista de usuarios.
+
+4. Probar errores comunes
+Intentar registrar un usuario con un correo ya registrado
+Repite el proceso de registro pero usando el mismo correo de un usuario ya registrado.
+Recibirás un 400 Bad Request con el mensaje:
+
+{
+  "mensaje": "El correo ya está registrado"
+}
+
+Intentar registrar un usuario con una clave inválida
+Modifica el JSON de registro para usar una clave no válida, como abc123.
+Recibirás un 400 Bad Request con un mensaje detallado sobre el formato de la clave, como:
+
+{
+  "mensaje": "La clave debe tener al menos una letra mayúscula, al menos una letra minúscula, al menos dos números y un largo mínimo de 6 caracteres."
+}
+
+Intentar listar usuarios sin token
+En la petición GET /api/usuarios/listar, no incluyas el encabezado Authorization.
+Recibirás un 403 Forbidden, indicando que la autenticación es requerida.
+
+Intentar listar usuarios con un token inválido
+Usa un token inválido en la solicitud GET /api/usuarios/listar.
+Recibirás un 403 Forbidden.
