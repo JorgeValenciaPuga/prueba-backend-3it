@@ -1,0 +1,128 @@
+openapi: 2.1.0
+info:
+  title: API de Usuarios
+  description: API para registrar usuarios y listar los usuarios registrados.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/usuarios/registrar:
+    post:
+      summary: Registrar un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequest'
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+        '400':
+          description: Error en la solicitud
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/usuarios/listar:
+    get:
+      summary: Obtener listado de usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UsuarioConTelefonos'
+        '403':
+          description: Acceso denegado
+        '401':
+          description: No autorizado
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UsuarioRequest:
+      type: object
+      properties:
+        nombre:
+          type: string
+        correo:
+          type: string
+        clave:
+          type: string
+        telefonos:
+          type: array
+          items:
+            $ref: '#/components/schemas/TelefonoRequest'
+      required:
+        - nombre
+        - correo
+        - clave
+        - telefonos
+
+    TelefonoRequest:
+      type: object
+      properties:
+        numero:
+          type: string
+        codigoArea:
+          type: string
+        codigoPais:
+          type: string
+      required:
+        - numero
+        - codigoArea
+        - codigoPais
+
+    UsuarioResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        token:
+          type: string
+
+    UsuarioConTelefonos:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nombre:
+          type: string
+        correo:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        telefonos:
+          type: array
+          items:
+            $ref: '#/components/schemas/TelefonoRequest'
+
+    ErrorResponse:
+      type: object
+      properties:
+        mensaje:
+          type: string
